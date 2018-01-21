@@ -3,11 +3,26 @@
 namespace App;
 
 use App\Components\Database\Traits\HasUuid;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Node
+ * @package App
+ * @property string $id
+ * @property string $name
+ * @property int $status
+ * @property string $keyword
+ * @property string $platform
+ * @property string $connection
+ * @property string $protocol
+ * @property string $dsn
+ * @property Carbon $pinged_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class Node extends Model
 {
-
     use HasUuid;
 
     public const PLATFORM_ARDUINO = 'arduino';
@@ -63,6 +78,8 @@ class Node extends Model
     protected $table = 'nodes';
 
     /**
+     * Disable autoincrement.
+     *
      * @var bool
      */
     public $incrementing = false;
