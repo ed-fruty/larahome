@@ -5,6 +5,17 @@ use App\Node;
 
 final class NodePlatform
 {
+    public const PLATFORM_ARDUINO = 'arduino';
+    public const PLATFORM_ESP8266 = 'esp8266';
+    public const PLATFORM_ESP32 = 'esp32';
+    public const PLATFORM_RASPBERRY_PI = 'raspberry_pi';
+    public const PLATFORM_ORANGE_PI = 'orange_pi';
+
+    public const PLATFORMS = [
+        self::PLATFORM_ARDUINO, self::PLATFORM_ESP8266, self::PLATFORM_ESP32,
+        self::PLATFORM_RASPBERRY_PI, self::PLATFORM_ORANGE_PI
+    ];
+
     /**
      * @var string
      */

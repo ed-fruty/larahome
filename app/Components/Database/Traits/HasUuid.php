@@ -16,7 +16,7 @@ trait HasUuid
     public static function bootHasUuid()
     {
         static::creating(function (Model $model) {
-
+        	
             if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = Uuid::generate(4);
             }

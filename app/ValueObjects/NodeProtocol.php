@@ -6,6 +6,16 @@ use App\Node;
 
 final class NodeProtocol
 {
+
+    public const PROTOCOL_FIRMATA = 'firmata';
+    public const PROTOCOL_JSON = 'json';
+    public const PROTOCOL_AREST = 'aRest';
+    public const PROTOCOL_MQTT = 'mqtt';
+
+    public const PROTOCOLS = [
+        self::PROTOCOL_FIRMATA, self::PROTOCOL_JSON, self::PROTOCOL_AREST, self::PROTOCOL_MQTT
+    ];
+
     /**
      * @var string
      */

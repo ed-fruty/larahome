@@ -3,23 +3,25 @@
 namespace App\Bus\Handler;
 
 use App\Bus\Command\CreateNodeCommand;
+use App\Events\NodeWasCreated;
 use App\Node;
+use App\Repositories\NodeRepository;
 use Carbon\Carbon;
 
 final class CreateNodeHandler
 {
     /**
-     * @var Node
+     * @var NodeRepository
      */
-    private $model;
+    private $nodeRepository;
 
     /**
      * CreateNodeHandler constructor.
      * @param Node $model
      */
-    public function __construct(Node $model)
+    public function __construct(NodeRepository $nodeRepository)
     {
-        $this->model = $model;
+        $this->nodeRepository = $nodeRepository;
     }
 
     /**
@@ -27,18 +29,20 @@ final class CreateNodeHandler
      */
     public function handle(CreateNodeCommand $command)
     {
-        $node = $this->model->newInstance();
+        $node = $this->nodeRepository->newInstance();
 
-        $node->setAttribute(Node::ATTR_ID, $command->getId());
-        $node->setAttribute(Node::ATTR_NAME, $command->getName());
-        $node->setAttribute(Node::ATTR_STATUS, $command->getStatus()->getStatusValue());
-        $node->setAttribute(Node::ATTR_KEYWORD, $command->getKeyword());
-        $node->setAttribute(Node::ATTR_CONNECTION, $command->getCommunication()->getConnection()->getValue());
-        $node->setAttribute(Node::ATTR_PLATFORM, $command->getCommunication()->getPlatform()->getValue());
-        $node->setAttribute(Node::ATTR_PROTOCOL, $command->getCommunication()->getProtocol()->getValue());
-        $node->setAttribute(Node::ATTR_DSN, $command->getCommunication()->getDsn()->getValue());
-        $node->setAttribute(Node::ATTR_PINGED_AT, Carbon::now()->format('Y-m-d H:i:s'));
+        $node->setId($command->getId())
+            ->setKeyword($command->getKeyword())
+            ->setName($command->getName())
+            ->setStatus($command->getStatus())
+            ->setConnection($command->getCommunication()->getConnection())
+            ->setPlatform($command->getCommunication()->getPlatform())
+            ->setProtocol($command->getCommunication()->getProtocol())
+            ->setDsn($command->getCommunication()->getDsn())
+            ->setPingedAt(Carbon::now());
 
-        $node->save();
+        $this->nodeRepository->save($node);
+
+        event(new NodeWasCreated($node));
     }
 }
